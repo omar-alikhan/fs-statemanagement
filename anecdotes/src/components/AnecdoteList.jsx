@@ -10,7 +10,7 @@ const AnecdoteList = () => {
   const { vote, remove } = useAnecdotesActions();
   const handleVote = anecdote => {
     vote(anecdote);
-    showNotification(`You voted '${anecdote.content}'`);
+    showNotification(`you voted '${anecdote.content}'`);
   };
 
   const handleDelete = anecdote => {
