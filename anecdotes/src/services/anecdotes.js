@@ -27,6 +27,22 @@ const create = async anecdote => {
   return await response.json();
 };
 
+const remove = async id => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await fetch(`${baseUrl}/${id}`, options);
+
+  if (!response.ok) {
+    throw new Error("Failed to delete anecdote");
+  }
+
+  return await response.json();
+};
+
 const vote = async anecdote => {
   const options = {
     method: "PATCH",
@@ -44,4 +60,4 @@ const vote = async anecdote => {
   return await response.json();
 };
 
-export default { getAll, create, vote };
+export default { getAll, create, remove, vote };
