@@ -25,22 +25,23 @@ const useAnecdoteStore = create(set => ({
   actions: {
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll();
-      set(() => ({ anecdotes }));
+      const sortedAnecdotes = anecdotes.toSorted((a, b) => b.votes - a.votes);
+      set(() => ({ anecdotes: sortedAnecdotes }));
     },
-    vote: id =>
+    vote: async anecdote => {
+      const updatedAnecdote = await anecdoteService.vote(anecdote);
       set(state => ({
         anecdotes: state.anecdotes
-          .map(anecdote =>
-            anecdote.id === id
-              ? { ...anecdote, votes: anecdote.votes + 1 }
-              : anecdote,
-          )
+          .map(a => (a.id === updatedAnecdote.id ? updatedAnecdote : a))
           .toSorted((a, b) => b.votes - a.votes),
-      })),
-    add: content =>
+      }));
+    },
+    add: async content => {
+      const createdAnecdote = await anecdoteService.create(asObject(content));
       set(state => ({
-        anecdotes: state.anecdotes.concat(asObject(content)),
-      })),
+        anecdotes: state.anecdotes.concat(createdAnecdote),
+      }));
+    },
     setFilter: value => set(() => ({ filter: value })),
   },
 }));
