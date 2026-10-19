@@ -46,6 +46,26 @@ const useAnecdoteStore = create(set => ({
   },
 }));
 
+let timer;
+
+const useNotificationStore = create((set, get) => ({
+  notification: null,
+  actions: {
+    showNotification: message => {
+      clearTimeout(timer);
+      set(() => ({ notification: message }));
+      timer = setTimeout(() => get().actions.clearNotification(), 5000);
+    },
+    clearNotification: () => set({ notification: null }),
+  },
+}));
+
+export const useNotifications = () =>
+  useNotificationStore(state => state.notification);
+
+export const useNotificationsActions = () =>
+  useNotificationStore(state => state.actions);
+
 export const useAnecdotes = () =>
   useAnecdoteStore(
     useShallow(({ anecdotes, filter }) => {
