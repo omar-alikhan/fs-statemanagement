@@ -85,4 +85,44 @@ describe("anecdote store", () => {
 
     expect(useAnecdoteStore.getState().anecdotes[0].votes).toEqual(3);
   });
+
+  it("when filter is set, returns correctly filtered anecdotes", async () => {
+    const mockAnecdotes = [
+      {
+        id: 1,
+        content: "First anecdote",
+        votes: 2,
+      },
+      {
+        id: 2,
+        content: "Second anecdote",
+        votes: 3,
+      },
+      {
+        id: 3,
+        content: "Third anecdote",
+        votes: 1,
+      },
+    ];
+
+    useAnecdoteStore.setState({ anecdotes: mockAnecdotes });
+
+    const { result: resultAnecdotes } = renderHook(() => useAnecdotes());
+    const { result: resultActions } = renderHook(() => useAnecdotesActions());
+
+    await act(() => {
+      resultActions.current.setFilter("anecdote");
+    });
+    expect(resultAnecdotes.current.length).toBe(3);
+
+    await act(() => {
+      resultActions.current.setFilter("first");
+    });
+    expect(resultAnecdotes.current[0]).toEqual(mockAnecdotes[0]);
+
+    await act(() => {
+      resultActions.current.setFilter("s");
+    });
+    expect(resultAnecdotes.current.length).toBe(2);
+  });
 });
