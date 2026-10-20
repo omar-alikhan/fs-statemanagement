@@ -83,3 +83,5 @@ export const useAnecdotes = () =>
   );
 export const useAnecdotesActions = () =>
   useAnecdoteStore(state => state.actions);
+
+export default useAnecdoteStore;
