@@ -75,8 +75,9 @@ export const useNotificationsActions = () =>
 export const useAnecdotes = () =>
   useAnecdoteStore(
     useShallow(({ anecdotes, filter }) => {
-      if (filter === "" || filter === null) return anecdotes;
-      return anecdotes.filter(anecdote =>
+      const sortedAnecdotes = anecdotes.toSorted((a, b) => b.votes - a.votes);
+      if (filter === "" || filter === null) return sortedAnecdotes;
+      return sortedAnecdotes.filter(anecdote =>
         anecdote.content.toLowerCase().includes(filter.toLowerCase()),
       );
     }),
