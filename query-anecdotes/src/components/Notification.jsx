@@ -10,9 +10,11 @@ const Notification = () => {
     marginBottom: 5,
   };
   return (
-    <div data-testid="notification" style={style}>
-      {notification}
-    </div>
+    notification && (
+      <div data-testid="notification" style={style}>
+        {notification}
+      </div>
+    )
   );
 };
 

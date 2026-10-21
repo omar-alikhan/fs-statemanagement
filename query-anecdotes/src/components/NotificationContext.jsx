@@ -9,7 +9,7 @@ export const NotificationContextProvider = props => {
 
   const displayNotification = newNotification => {
     setNotification(newNotification);
-    setTimeout(() => setNotification(""), 5000);
+    setTimeout(() => setNotification(null), 5000);
   };
 
   return (
