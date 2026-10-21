@@ -3,11 +3,7 @@ import Notification from "./components/Notification";
 import useAnecdotes from "./hooks/useAnecdotes";
 
 const App = () => {
-  const { anecdotes, isPending, isError } = useAnecdotes();
-
-  const handleVote = anecdote => {
-    console.log("vote");
-  };
+  const { anecdotes, voteAnecdote, isPending, isError } = useAnecdotes();
 
   if (isPending) {
     return <div>loading data...</div>;
@@ -31,7 +27,7 @@ const App = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
+            <button onClick={() => voteAnecdote(anecdote)}>vote</button>
           </div>
         </div>
       ))}
